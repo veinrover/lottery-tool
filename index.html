@@ -11,9 +11,10 @@
 <style>
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{overflow-x:hidden}
 :root{--bg:#0d0f14;--sur:#161920;--bdr:rgba(255,255,255,0.08);--txt:#e8eaf0;--mut:#7a8099;--acc:#5af7c8;--dan:#f76a6a;--r:12px}
-body{background:var(--bg);color:var(--txt);font-family:"Noto Sans TC",sans-serif;min-height:100vh;padding:2rem 1rem}
-.wrap{max-width:760px;margin:0 auto}
+body{background:var(--bg);color:var(--txt);font-family:"Noto Sans TC",sans-serif;min-height:100vh;padding:2rem 1rem;overflow-x:hidden;width:100%}
+.wrap{max-width:760px;margin:0 auto;width:100%}
 h1{font-size:1.4rem;font-weight:700;letter-spacing:.08em;color:var(--acc);margin-bottom:.25rem}
 .sub{color:var(--mut);font-size:.85rem;margin-bottom:2rem}
 .sec{background:var(--sur);border:1px solid var(--bdr);border-radius:var(--r);padding:1.25rem;margin-bottom:1.25rem}
@@ -116,6 +117,7 @@ select option{background:#1e2130}
 
   @media (max-width: 700px) {
     .top-row { grid-template-columns: 1fr; }
+    .prow { grid-template-columns: 1fr 60px 36px; }
   }
 
   .panel {
@@ -713,6 +715,7 @@ select option{background:#1e2130}
     gap: .4rem;
     min-height: 2rem;
     padding: .4rem 0;
+    width: 100%;
   }
   .tag-empty {
     color: var(--muted);
