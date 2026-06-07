@@ -912,7 +912,6 @@ function checkStartBtn() {
   } else {
     var fh = document.getElementById('format-hint');
     ok = fh && fh.value.trim().length > 0;
-    console.log('[checkStartBtn] mode=manual, fh value:', fh ? JSON.stringify(fh.value) : 'null', 'ok:', ok);
   }
   btn.disabled = !ok;
   btn.style.opacity = ok ? '1' : '0.4';
@@ -1125,6 +1124,12 @@ function clearManualTags() {
 
 function deleteManualTag(idx) {
   manualData.splice(idx, 1);
+  if (manualData.length === 0) {
+    showPage('setup');
+    restoreSetupMode();
+    updatePreview();
+    return;
+  }
   renderManualList();
 }
 
@@ -1132,19 +1137,21 @@ function renderManualList() {
   var el = document.getElementById('tag-list');
   if (!el) return;
   if (manualData.length === 0) {
-    // 名單刪光自動返回設定頁
-    if (document.getElementById('lottery-page').style.display !== 'none') {
-      doReset();
-      showPage('setup');
-      updatePreview();
-    }
+    el.innerHTML = '<span class="tag-empty">名單已清空</span>';
+    var badge = document.getElementById('count-badge');
+    if (badge) badge.textContent = '0 筆';
     return;
   }
+  var showDel = manualData.length > 1;
   el.innerHTML = manualData.map(function(c, i) {
-    return '<span class="tag-item">@' + c.handle
-      + '<button class="tag-del" data-idx="' + i + '" onclick="deleteManualTag(+this.dataset.idx)">✕</button>'
-      + '</span>';
+    var del = showDel
+      ? '<button class="tag-del" data-idx="' + i + '" onclick="deleteManualTag(+this.dataset.idx)">✕</button>'
+      : '';
+    return '<span class="tag-item">@' + c.handle + del + '</span>';
   }).join('');
+  if (!showDel) {
+    el.innerHTML += '<div style="color:rgba(247,200,106,0.7);font-size:.75rem;margin-top:.5rem">&#9888;&#65039; 名單只剩一筆，若需調整請返回設定</div>';
+  }
   var badge = document.getElementById('count-badge');
   if (badge) badge.textContent = manualData.length + ' 筆';
 }
